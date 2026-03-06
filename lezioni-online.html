@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Lezioni online individuali su AI, Machine Learning, Linux, Cybersecurity, Reti, Algoritmi, Python. Prima lezione 30 minuti gratuita.">
+<title>Lezioni Online - Alberto Furnari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --surface: #16161f;
+    --border: #222230;
+    --accent: #e8632a;
+    --accent2: #f0a060;
+    --text: #e8e8f0;
+    --muted: #7a7a90;
+    --green: #3dd68c;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(232,99,42,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232,99,42,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  nav .brand span { color: var(--accent); }
+
+  nav a.back {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+
+  nav a.back:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    padding: 140px 0 80px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(232,99,42,0.1);
+    border: 1px solid rgba(232,99,42,0.25);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    padding: 14px 0;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  .btn-ghost:hover { color: var(--text); }
+
+  /* FREE LESSON BANNER */
+  .free-banner {
+    background: linear-gradient(135deg, rgba(61,214,140,0.08), rgba(61,214,140,0.03));
+    border: 1px solid rgba(61,214,140,0.2);
+    border-radius: 12px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 60px 0;
+  }
+
+  .free-banner .icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .free-banner strong {
+    display: block;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
+
+  .free-banner p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* SECTION TITLES */
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+
+  /* MATERIE GRID */
+  .materie-section { margin-bottom: 80px; }
+
+  .tier-group { margin-bottom: 48px; }
+
+  .tier-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .tier-badge {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  .tier-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .tier-price-label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .materie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .materia-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-decoration: none;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .materia-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .materia-card:hover {
+    border-color: rgba(232,99,42,0.4);
+    background: #1a1a25;
+    transform: translateX(4px);
+  }
+
+  .materia-card:hover::before { opacity: 1; }
+
+  .materia-info {}
+
+  .materia-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
+
+  .materia-target {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .materia-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .materia-price {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--accent);
+  }
+
+  .materia-arrow {
+    color: var(--muted);
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+
+  .materia-card:hover .materia-arrow { transform: translateX(3px); }
+
+  .badge-lancio {
+    background: rgba(61,214,140,0.15);
+    border: 1px solid rgba(61,214,140,0.3);
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+  }
+
+  /* PACCHETTI */
+  .pacchetti-section { margin-bottom: 80px; }
+
+  .pacchetti-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  @media (max-width: 640px) {
+    .pacchetti-grid { grid-template-columns: 1fr; }
+    .materie-grid { grid-template-columns: 1fr; }
+  }
+
+  .paccchetto-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .paccchetto-card.featured {
+    border-color: rgba(232,99,42,0.4);
+    background: linear-gradient(135deg, rgba(232,99,42,0.06), var(--surface));
+    position: relative;
+  }
+
+  .featured-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .paccchetto-tipo {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .paccchetto-saving {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  .paccchetto-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* CHI SONO */
+  .chi-sono-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px;
+    margin-bottom: 80px;
+  }
+
+  .credenziali {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  @media (max-width: 560px) {
+    .credenziali { grid-template-columns: 1fr; }
+    .chi-sono-section { padding: 28px 20px; }
+    .pacchetti-grid { grid-template-columns: 1fr; }
+  }
+
+  .credenziale {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .cred-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .cred-text {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .cred-text strong {
+    display: block;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: gap;
+    gap: 16px;
+  }
+
+  footer .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  footer .brand span { color: var(--accent); }
+
+  footer p {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  footer a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  footer a:hover { color: var(--text); }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.6s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.2s; }
+  .fade-in:nth-child(3) { animation-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="https://www.albertofurnari.com/" class="brand">Alberto<span>Furnari</span></a>
+  <a href="https://www.albertofurnari.com/" class="back">← Torna al sito</a>
+</nav>
+
+<main>
+  <div class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="fade-in">
+        <div class="hero-tag">Lezioni Online Disponibili</div>
+      </div>
+      <div class="fade-in">
+        <h1>Impara da chi lo fa<br><em>ogni giorno</em><br>in produzione.</h1>
+      </div>
+      <div class="fade-in">
+        <p class="hero-sub">Sessioni individuali su AI, Linux, Cybersecurity, Reti, Algoritmi e Python. Non da libro di testo - da 20 anni di sistemi enterprise reali.</p>
+        <div class="hero-cta">
+          <a href="#materie" class="btn-primary">Scegli la materia →</a>
+          <a href="https://www.albertofurnari.com/" class="btn-ghost">Scopri il mio lavoro</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FREE LESSON -->
+    <div class="free-banner fade-in">
+      <div class="icon">🎯</div>
+      <div>
+        <strong>Prima lezione gratuita - 30 minuti</strong>
+        <p>Analizziamo il tuo obiettivo specifico - esame, certificazione o competenza professionale - e costruiamo il piano di lavoro piu' efficiente. Zero impegno, zero rischio.</p>
+      </div>
+    </div>
+
+    <!-- MATERIE -->
+    <section class="materie-section" id="materie">
+      <div class="section-label">Materie disponibili</div>
+      <h2>Scegli il percorso</h2>
+
+      <!-- Tier 40€ -->
+      <div class="tier-group">
+        <div class="tier-label">
+          <span class="tier-badge">40€</span>
+          <span class="tier-price-label">/ ora</span>
+          <div class="tier-line"></div>
+        </div>
+        <div class="materie-grid">
+          <a href="https://www.superprof.it/prompt-engineering-smetti-iterare-scrivi-prompt-che-funzionano-primo-tentativo-tecniche-con-metodologia-originale.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Prompt Engineering</div>
+              <div class="materia-target">Professionisti LLM - Metodologia ZSE</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">40€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+          <a href="https://www.superprof.it/machine-learning-smetti-studiare-teoria-costruisci-modelli-che-funzionano-produzione-docente-universitario.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Machine Learning</div>
+              <div class="materia-target">Pipeline produzione reale</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">40€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+          <a href="https://www.superprof.it/linux-administration-rhel-bash-puppet-hardening-infrastructure-lead-che-gestisce-server-linux-produzione.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Linux Administration</div>
+              <div class="materia-target">RHEL, Bash, Puppet, Hardening</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">40€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tier 38€ -->
+      <div class="tier-group">
+        <div class="tier-label">
+          <span class="tier-badge">38€</span>
+          <span class="tier-price-label">/ ora</span>
+          <div class="tier-line"></div>
+        </div>
+        <div class="materie-grid">
+          <a href="https://www.superprof.it/cybersecurity-teoria-attacchi-reali-docente-universitario-certificato-comptia-casp-anni-infrastrutture-enterprise.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Cybersecurity</div>
+              <div class="materia-target">CompTIA CASP+ - Infrastrutture Enterprise</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">38€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+          <a href="https://www.superprof.it/sistemi-operativi-kernel-scheduling-memoria-virtuale-spiegati-da-chi-gestisce-server-linux-produzione-docente-universitario.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Sistemi Operativi</div>
+              <div class="materia-target">450+ server Linux in produzione</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">38€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tier 35€ -->
+      <div class="tier-group">
+        <div class="tier-label">
+          <span class="tier-badge">35€</span>
+          <span class="tier-price-label">/ ora</span>
+          <div class="tier-line"></div>
+        </div>
+        <div class="materie-grid">
+          <a href="https://www.superprof.it/reti-calcolatori-supera-esame-capisci-davvero-come-funziona-internet-docente-universitario-approccio-pratico-sistemi-reali.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Reti di Calcolatori</div>
+              <div class="materia-target">Universitari - CCNA/Network+</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">35€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+          <a href="https://www.superprof.it/intelligenza-artificiale-supera-esame-con-metodo-agenti-reti-neurali-deep-learning-spiegati-docente-universitario.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Intelligenza Artificiale</div>
+              <div class="materia-target">Universitari - Esame con metodo</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">35€</div>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tier 20€ lancio -->
+      <div class="tier-group">
+        <div class="tier-label">
+          <span class="tier-badge">20€</span>
+          <span class="tier-price-label">/ ora - tariffa lancio</span>
+          <div class="tier-line"></div>
+        </div>
+        <div class="materie-grid">
+          <a href="https://www.superprof.it/algoritmi-strutture-dati-smetti-bloccarti-big-grafi-docente-universitario-con-approccio-operativo-sistemi-reali.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Algoritmi e Strutture Dati</div>
+              <div class="materia-target">Universitari - Big O, Grafi, DP</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">20€</div>
+              <span class="badge-lancio">lancio</span>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+          <a href="https://www.superprof.it/python-smetti-seguire-tutorial-scrivi-codice-che-funziona-produzione-docente-universitario-con-anni-esperienza.html" class="materia-card" target="_blank" rel="noopener">
+            <div class="materia-info">
+              <div class="materia-name">Python</div>
+              <div class="materia-target">Universitari e junior - Codice produzione</div>
+            </div>
+            <div class="materia-right">
+              <div class="materia-price">20€</div>
+              <span class="badge-lancio">lancio</span>
+              <div class="materia-arrow">→</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACCHETTI -->
+    <section class="pacchetti-section">
+      <div class="section-label">Pacchetti orari</div>
+      <h2>Risparmia sui pacchetti</h2>
+      <div class="pacchetti-grid">
+        <div class="paccchetto-card">
+          <div class="paccchetto-tipo">Singola ora</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;">Tariffa<br>base</div>
+          <div class="paccchetto-saving">Nessuno sconto</div>
+          <div class="paccchetto-note">Per chi vuole provare una sessione specifica</div>
+        </div>
+        <div class="paccchetto-card featured">
+          <div class="featured-badge">Piu' scelto</div>
+          <div class="paccchetto-tipo">Pacchetto 5 ore</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;">-15%<br>di sconto</div>
+          <div class="paccchetto-saving">Equivale a 45 minuti gratuiti</div>
+          <div class="paccchetto-note">Ideale per preparare un esame universitario</div>
+        </div>
+        <div class="paccchetto-card">
+          <div class="paccchetto-tipo">Pacchetto 10 ore</div>
+          <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;">-20%<br>di sconto</div>
+          <div class="paccchetto-saving">Equivale a 2 ore gratuite</div>
+          <div class="paccchetto-note">Per percorsi strutturati e certificazioni</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHI SONO -->
+    <section class="chi-sono-section">
+      <div class="section-label">Chi insegna</div>
+      <h2 style="margin-bottom:16px;">Alberto Furnari</h2>
+      <p style="color:var(--muted);font-size:15px;line-height:1.7;max-width:600px;">Ho 20 anni di esperienza su infrastrutture enterprise Linux, gestisco 450+ server RHEL in produzione e insegno queste materie a studenti universitari. Non spiego teoria - spiego come funzionano le cose quando devono funzionare davvero.</p>
+      <div class="credenziali">
+        <div class="credenziale">
+          <div class="cred-dot"></div>
+          <div class="cred-text">
+            <strong>Infrastructure Operations Lead</strong>
+            20 anni su sistemi enterprise Linux
+          </div>
+        </div>
+        <div class="credenziale">
+          <div class="cred-dot"></div>
+          <div class="cred-text">
+            <strong>CompTIA CASP+</strong>
+            Advanced Security Practitioner
+          </div>
+        </div>
+        <div class="credenziale">
+          <div class="cred-dot"></div>
+          <div class="cred-text">
+            <strong>Autore Zero-Shot Engineering</strong>
+            Metodologia proprietaria per prompt engineering
+          </div>
+        </div>
+        <div class="credenziale">
+          <div class="cred-dot"></div>
+          <div class="cred-text">
+            <strong>450+ server RHEL gestiti</strong>
+            Foreman, Puppet, Ansible, Veeam in produzione
+          </div>
+        </div>
+        <div class="credenziale">
+          <div class="cred-dot"></div>
+          <div class="cred-text">
+            <strong>14 recensioni 5 stelle</strong>
+            Su Superprof - verificate dagli studenti
+          </div>
+        </div>
+        <div class="credenziale">
+          <div class="cred-dot"></div>
+          <div class="cred-text">
+            <strong>Prima lezione gratuita</strong>
+            30 minuti per definire il tuo percorso
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <div class="brand">Alberto<span>Furnari</span></div>
+    <p>Tutte le lezioni si svolgono online via webcam</p>
+    <a href="https://www.albertofurnari.com/">albertofurnari.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
